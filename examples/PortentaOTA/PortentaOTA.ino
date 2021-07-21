@@ -56,7 +56,8 @@ void setup()
     if (qspi_bd == nullptr) {
         Serial.print("Initializing the QSPIF device...");
         qspi_bd = new QSPIFBlockDevice(PD_11, PD_12, PF_7, PD_13, PF_10, PG_6, QSPIF_POLARITY_MODE_1, 40000000);
-        if (qspi_bd->init() != QSPIF_BD_ERROR_OK) {
+        auto ret = qspi_bd->init();
+        if (ret != QSPIF_BD_ERROR_OK && ret != QSPIF_BD_ERROR_DEVICE_NOT_UNIQUE) {
             Serial.println(" Error.");
             return;
         }
